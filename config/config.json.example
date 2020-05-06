@@ -1,0 +1,30 @@
+{
+    "development": {
+        "dialect": "mariadb",
+        "host": "192.168.10.10",
+        "database": "turniket",
+        "username": "homestead",
+        "password": "secret",
+        "dialectOptions": {
+            "useUTC": false
+        },
+        "timezone": "Europe/Chisinau",
+        "1c_host": "",
+        "1c_username": "",
+        "1c_password": ""
+    },
+    "production": {
+        "dialect": "mariadb",
+        "host": "localhost",
+        "database": "turniket",
+        "username": "sql_user",
+        "password": "sql!user",
+        "dialectOptions": {
+            "useUTC": false
+        },
+        "timezone": "Europe/Chisinau",
+        "1c_host": "",
+        "1c_username": "",
+        "1c_password": ""
+    }
+}

@@ -1,0 +1,136 @@
+Рекомендуемый образ OS: Armbian (https://www.armbian.com/download/)
+Для Orabge Pi One: https://www.armbian.com/orange-pi-one/
+Скачивать версию Debian. В данном случае называется "Armbian Buster" или "Armbian Stretch"
+
+
+Установка необходимых пакетов системы:
+    apt install curl git python-dev
+---
+
+
+Для Turniket:
+==============================
+
+Установка Node.js версии LTS (актуальной на текущий день 10.x) (nodejs.org -> Other Downloads -> Installing Node.js via package manager):
+    curl -sL https://deb.nodesource.com/setup_10.x | bash -
+    apt-get install -y nodejs
+---
+Установка Node.js пакета PM2 (для автозапуска сервиса):
+    npm install -g pm2
+---
+
+Установка MariaDB (MySQL):
+    apt install mariadb-server
+Настройка:
+    запустить: mariadb
+    выполнить следующие команды для создания базы данных и пользователя:
+        create database turniket;
+        grant all on turniket.* to 'sql_user' identified by 'sql!user';
+        exit;
+
+Для настройки внешнего подключения к MySQL, необходимо в файле /etc/mysql/mysql.conf.d/mysqld.cnf
+Закоментировать строку bind-address = 127.0.0.1
+
+---
+
+Установка и настройка приложение Turniket:
+Из репозитария скачиваются скрипты в папку /opt/turniket:
+    git clone https://reals@bitbucket.org/realsteam/turniket /opt/turniket
+(или просто копируются).
+переходим в папку проекта:
+    cd /opt/turniket
+далее в этой папке выполняются следующие команды:
+    npm install
+    export NODE_ENV=production && npx sequelize-cli db:migrate
+
+    pm2 start /opt/turniket/bin/www
+    pm2 save
+    pm2 startup
+----
+
+Для обновления из репозитария, необходимо:
+зайти в папку проекта:
+cd /opt/turniket
+и выполнить команду:
+git pull
+
+================================================================================
+
+В файле ./config/config.json
+находятся настройки подключения к базе данных
+и настройки подключения к 1C, куда отправляются лог-данные.
+
+Файл логотипа находится в: public/img/logo.png
+
+-------------------
+
+Панель управления:
+http://ip_address_turniket:3000
+Логин: admin
+Пароль: admin!
+
+В разделе Readers настраиваются ридеры.
+В разделе Cards, отображается список всех карточек, при нажатии на которыйх, открывается лог по выбранной карточке.
+
+================================================================================
+
+Для загрузки в Turniket данных, используется следующий JSON-формат:
+-----
+{
+  "Reason": "",
+  "Body": [
+    {
+      "Number": "0001775740",
+      "Periods": [
+        { "From": "7:00", "To": "12:00" },
+        { "From": "18:00", "To": "" },
+        { "From": "", "To": "" }
+      ],
+      "AllowExit": 1,
+      "Activated": 1
+    },
+    {
+      "Number": "0001733159",
+      "Periods": [
+        { "From": "6:00", "To": "18:00" },
+        { "From": "", "To": "" },
+        { "From": "", "To": "" }
+      ],
+      "AllowExit": 0,
+      "Activated": 1
+    }
+  ]
+}
+-------
+В объекте "Body" находится масив данных карточек.
+Отправляются эти данные в:
+http://ip_address_turniket:3000/post-card
+================================================================================
+
+Для отправки лог-данных в 1C, используется json-формат:
+{
+  "Reason": "",
+  "Body": [
+    {
+      "id": 1,
+      "card_number": "0001775740",
+      "direction": "in",
+      "created_at": "2019-07-22 11:50:00"
+    },
+    {
+      "id": 2,
+      "card_number": "0001775740",
+      "direction": "in",
+      "created_at": "2019-07-22 13:45:00"
+    }
+  ]
+}
+
+====================
+Открывание можно произвести путём отправки POST-запроса:
+http://ip_address_turniket:3000/api/readers/open/{id_readers}
+где:
+{id_readers} - ID считывателя, который можно увидеть в таблице Readers.
+
+
+

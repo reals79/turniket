@@ -1,0 +1,73 @@
+.v-navigation-drawer {
+  @include shadow-big();
+
+  .v-list {
+    background: $sidebar-bg;
+    padding: 0;
+
+    .v-list-item {
+      &:not(:nth-child(3)){
+        margin: $margin-small $margin-general 0;
+      }
+
+      &:nth-child(3) {
+        margin: 0 $margin-general;
+      }
+
+      & > .v-list__tile {
+        border-radius: 4px;
+        padding: $padding-small $padding-general;
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: $list-item-hover;
+        }
+
+        .v-list__tile__title {
+          font-size: $font-size-general !important;
+          padding: 0;
+        }
+      }
+
+      .v-list__tile__action {
+        margin-right: $margin-general;
+        min-width: unset;
+
+        width: 30px;
+        i {
+          //width: 30px;
+        }
+      }
+
+      .v-list__tile:not(.v-list__tile--active) .v-list__tile__action i {
+        opacity: .8;
+      }
+
+      .v-list__tile.v-list__tile--active {
+        @include shadow-big-color($brand-success);
+      }
+    }
+
+    .v-list__tile--avatar {
+      height: unset;
+      padding: 15px 0;
+    }
+
+    .v-list__tile__avatar {
+      margin-left: 25px;
+      margin-right: 11px;
+      min-width: unset;
+    }
+
+    .v-divider {
+      border-color: $black-opacity-3;
+      margin: $divider-margins auto $divider-margins + 25;
+      width: $divider-width;
+    }
+
+    .v-avatar {
+      @include shadow-big;
+    }
+  }
+}

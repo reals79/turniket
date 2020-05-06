@@ -1,0 +1,58 @@
+#app-toolbar.v-toolbar {
+  min-height: 70px;
+  border-radius: 4px;
+  margin-bottom: $margin-general;
+
+  &:not(.v-toolbar--fixed) .v-toolbar__content {
+    margin-left: 260px;
+  }
+
+  &[class*="bg-"] {
+    .v-toolbar__title,
+    .v-btn__content,
+    .v-ripple__container {
+      color: white !important;
+    }
+  }
+
+  .v-toolbar__content {
+    min-height: 70px;
+    padding-bottom: $padding-small;
+    padding-top: $padding-small;
+
+    .v-toolbar__title {
+      font-size: 18px;
+      letter-spacing: unset;
+      color: #495057;
+    }
+
+    .v-toolbar__items {
+      & > div {
+        padding: 0 !important;
+      }
+
+      .toolbar-items{
+        align-items: center;
+        border-radius: 4px;
+        display: flex;
+        min-height: $list-item-height;
+        padding: $padding-small $padding-general;
+
+        .v-icon {
+          font-size: 20px;
+        }
+      }
+
+      .v-input {
+        margin: 0 !important;
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media all and (max-width: 990px) {
+  .v-toolbar:not(.v-toolbar--fixed) .v-toolbar__content {
+    margin-left: 0;
+  }
+}
