@@ -17,7 +17,7 @@
             <v-list-tile-avatar color="white">
               <v-img src="./img/logo.png" height="34" contain />
             </v-list-tile-avatar>
-            <v-list-tile-title class="title">Turniket</v-list-tile-title>
+            <v-list-tile-title class="title">RAccess Control</v-list-tile-title>
           </v-list-tile>
           <v-divider />
           <template v-if="isAuthenticated">
