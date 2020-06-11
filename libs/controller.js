@@ -11,6 +11,7 @@ const Reader = models.reader;
 const Card = models.card;
 const Log = models.log;
 global.readers = [];
+var lockRead = false;
 
 async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
@@ -201,59 +202,72 @@ module.exports = async function () {
         if (reader.port) {
             if (reader.type == "RS232") {
                 reader.port.on("data", async (number) => {
-                    number = number.slice(1, 11);
+                    if (!lockRead) {
+                        lockRead = true;
+                        number = number.slice(1, 11);
 
-                    console.log(`> ${number} - ${reader.direction}`);
+                        console.log(`> ${number} - ${reader.direction}`);
 
-                    let card_number = number.toString();
-                    console.log(`> ${card_number} - ${reader.direction}`);
-                    if ((card = await check_card(card_number, Card, reader))) {
+                        let card_number = number.toString();
+                        //console.log(`> ${card_number} - ${reader.direction}`);
                         if (
-                            reader.direction == "in" ||
-                            (reader.direction == "out" && card.allow_exit)
+                            (card = await check_card(card_number, Card, reader))
                         ) {
-                            led(reader.led);
-                            relay(reader.relay);
+                            if (
+                                reader.direction == "in" ||
+                                (reader.direction == "out" && card.allow_exit)
+                            ) {
+                                led(reader.led);
+                                relay(reader.relay);
+                            }
+                            await Log.create({
+                                card_id: card.id,
+                                reader_id: reader.id,
+                                synced: 0,
+                            });
+                            await pushLogs();
+                            console.log("Access Success!");
+                        } else {
+                            console.log("Access Denied!");
                         }
-                        await Log.create({
-                            card_id: card.id,
-                            reader_id: reader.id,
-                            synced: 0,
-                        });
-                        pushLogs();
-                        console.log("Access Success!");
-                    } else {
-                        console.log("Access Denied!");
+                        lockRead = false;
                     }
                 });
             }
             if (reader.type == "Wiegand") {
                 reader.port.begin();
                 reader.port.on("reader", async (idDec, idRFID, idHex) => {
-                    let card_number =
-                        reader.format == "decimal" ? idRFID : idHex;
-                    card_number =
-                        reader.format == "decimal-1c"
-                            ? parseInt(idHex, 16).toString(10)
-                            : card_number;
+                    if (!lockRead) {
+                        lockRead = true;
 
-                    if ((card = await check_card(card_number, Card, reader))) {
+                        let card_number =
+                            reader.format == "decimal" ? idRFID : idHex;
+                        card_number =
+                            reader.format == "decimal-1c"
+                                ? parseInt(idHex, 16).toString(10)
+                                : card_number;
+
                         if (
-                            reader.direction == "in" ||
-                            (reader.direction == "out" && card.allow_exit)
+                            (card = await check_card(card_number, Card, reader))
                         ) {
-                            led(reader.led);
-                            relay(reader.relay);
+                            if (
+                                reader.direction == "in" ||
+                                (reader.direction == "out" && card.allow_exit)
+                            ) {
+                                led(reader.led);
+                                relay(reader.relay);
+                            }
+                            await Log.create({
+                                card_id: card.id,
+                                reader_id: reader.id,
+                                synced: 0,
+                            });
+                            await pushLogs();
+                            console.log("Access Success!");
+                        } else {
+                            console.log("Access Denied!");
                         }
-                        await Log.create({
-                            card_id: card.id,
-                            reader_id: reader.id,
-                            synced: 0,
-                        });
-                        pushLogs();
-                        console.log("Access Success!");
-                    } else {
-                        console.log("Access Denied!");
+                        lockRead = false;
                     }
                 });
             }
