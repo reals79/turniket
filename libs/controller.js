@@ -208,6 +208,7 @@ module.exports = async function () {
                     console.log(buffer_arr);
                     console.log(buffer);
                     if (buffer_arr.length > 0) {
+                        buffer = "";
                         number = buffer_arr[0];
                         number = number.slice(1, 11);
 
