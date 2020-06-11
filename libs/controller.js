@@ -206,10 +206,16 @@ module.exports = async function () {
                     var buffer_arr = buffer.split(/\r?\n/);
                     console.log(buffer_arr);
                     var number = buffer_arr[0];
-                    if (number.charCodeAt(0) === 0x0001) {
+                    if (
+                        number.charCodeAt(0) === 0x0001 ||
+                        number.charCodeAt(0) === 0x0002
+                    ) {
                         number = number.slice(1);
                     }
-                    if (number.charCodeAt(number.length - 1) === 0x0002) {
+                    if (
+                        number.charCodeAt(number.length - 1) === 0x001 ||
+                        number.charCodeAt(number.length - 1) === 0x0002
+                    ) {
                         number = number.slice(0, -1);
                     }
                     console.log(number, number.length);
