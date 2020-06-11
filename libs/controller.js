@@ -207,8 +207,8 @@ module.exports = async function () {
                     console.log(buffer_arr);
                     console.log(buffer);
                     if (buffer_arr.length > 0 && buffer.length == 10) {
-                        //number = buffer;
-                        number = buffer.slice(1, 11);
+                        number = buffer;
+                        //number = buffer.slice(1, 11);
                         buffer = "";
 
                         console.log(`> ${number} - ${reader.direction}`);
