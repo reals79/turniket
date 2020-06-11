@@ -161,7 +161,7 @@ async function getReaders() {
             let relay = null;
             if (record.type == "RS232") {
                 try {
-                    port = new SerialPort(record.port, { baudRate: 9600 });
+                    port = new SerialPort(record.port, { baudRate: 115200 });
                 } catch (err) {}
             }
             if (record.type == "Wiegand") {
