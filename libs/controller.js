@@ -203,7 +203,7 @@ module.exports = async function () {
             if (reader.type == "RS232") {
                 reader.port.on("data", async (number) => {
                     buffer += number;
-                    var buffer_arr = buffer.split(/\n/);
+                    var buffer_arr = buffer.split(/\r\n/);
                     console.log(buffer_arr);
                     console.log(buffer);
                     if (buffer_arr.length > 0) {
