@@ -215,11 +215,7 @@ module.exports = async function () {
 
                         console.log(`> ${number} - ${reader.direction}`);
 
-                        let card_number = number.toString();
-                        //console.log(`> ${card_number} - ${reader.direction}`);
-                        if (
-                            (card = await check_card(card_number, Card, reader))
-                        ) {
+                        if ((card = await check_card(number, Card, reader))) {
                             if (
                                 reader.direction == "in" ||
                                 (reader.direction == "out" && card.allow_exit)
