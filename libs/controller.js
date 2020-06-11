@@ -201,12 +201,13 @@ module.exports = async function () {
     readers.forEach((reader) => {
         if (reader.port) {
             if (reader.type == "RS232") {
+                var r = /\\u([\d\w]{4})/gi;
                 reader.port.on("data", async (number) => {
                     buffer += number.toString();
                     var buffer_arr = buffer.split(/\r?\n/);
                     console.log(buffer_arr);
-                    number = buffer_arr[0];
-                    console.log(buffer, number.length);
+                    number = buffer_arr[0].replace(r, "");
+                    console.log(number, number.length);
                     if (buffer_arr.length > 0 && number.length == 10) {
                         //number = buffer.slice(1, 11);
                         buffer = "";
