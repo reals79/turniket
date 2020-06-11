@@ -206,8 +206,8 @@ module.exports = async function () {
                     var buffer_arr = buffer.split(/\r?\n/);
                     console.log(buffer_arr);
                     console.log(buffer);
-                    if (buffer_arr.length > 0 && buffer.length == 10) {
-                        number = buffer;
+                    number = buffer_arr[0];
+                    if (buffer_arr.length > 0 && number.length == 10) {
                         //number = buffer.slice(1, 11);
                         buffer = "";
 
