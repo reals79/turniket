@@ -213,7 +213,7 @@ module.exports = async function () {
                         number = number.slice(1);
                     }
                     if (
-                        number.charCodeAt(number.length - 1) === 0x001 ||
+                        number.charCodeAt(number.length - 1) === 0x0001 ||
                         number.charCodeAt(number.length - 1) === 0x0002
                     ) {
                         number = number.slice(0, -1);
