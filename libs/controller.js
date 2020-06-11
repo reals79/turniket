@@ -202,14 +202,14 @@ module.exports = async function () {
         if (reader.port) {
             if (reader.type == "RS232") {
                 reader.port.on("data", async (number) => {
-                    buffer += number;
+                    buffer += number.toString();
                     var buffer_arr = buffer.split(/\r?\n/);
                     console.log(buffer_arr);
                     console.log(buffer);
                     if (buffer_arr.length > 0 && buffer.length == 10) {
+                        //number = buffer;
+                        number = buffer.slice(1, 11);
                         buffer = "";
-                        number = buffer_arr[0];
-                        //number = number.slice(1, 11);
 
                         console.log(`> ${number} - ${reader.direction}`);
 
