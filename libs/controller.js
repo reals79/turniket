@@ -204,7 +204,6 @@ module.exports = async function () {
                 reader.port.on("data", async (number) => {
                     buffer += number;
                     var buffer_arr = buffer.split(/\r?\n/);
-                    buffer = buffer_arr.pop();
                     console.log(buffer_arr);
                     console.log(buffer);
                     if (buffer_arr.length > 0) {
