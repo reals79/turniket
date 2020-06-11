@@ -205,25 +205,9 @@ module.exports = async function () {
                     buffer += chunk.toString();
                     var buffer_arr = buffer.split(/\r?\n/);
                     var number = buffer_arr[0].replace(
-                        /[\u{0001}-\u{0007}]/gu,
+                        /[^(\u{0030}-\u{0039})]/gu,
                         ""
                     );
-                    /* if (
-                        number.charCodeAt(0) === 0x0001 ||
-                        number.charCodeAt(0) === 0x0002 ||
-                        number.charCodeAt(0) === 0x0003 ||
-                        number.charCodeAt(0) === 0x0004
-                    ) {
-                        number = number.slice(1);
-                    }
-                    if (
-                        number.charCodeAt(number.length - 1) === 0x0001 ||
-                        number.charCodeAt(number.length - 1) === 0x0002 ||
-                        number.charCodeAt(number.length - 1) === 0x0003 ||
-                        number.charCodeAt(number.length - 1) === 0x0004
-                    ) {
-                        number = number.slice(0, -1);
-                    } */
                     console.log(number, number.length);
                     if (buffer_arr.length > 0 && number.length == 10) {
                         //number = buffer.slice(1, 11);
