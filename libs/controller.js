@@ -201,7 +201,7 @@ module.exports = async function () {
     readers.forEach((reader) => {
         if (reader.port) {
             if (reader.type == "RS232") {
-                var r = /\\u([\d\w]{4})/gi;
+                var r = /\\u([\d\w]{4})/g;
                 reader.port.on("data", async (chunk) => {
                     buffer += chunk.toString();
                     var buffer_arr = buffer.split(/\r?\n/);
