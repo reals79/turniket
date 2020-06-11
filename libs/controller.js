@@ -204,17 +204,20 @@ module.exports = async function () {
                 reader.port.on("data", async (chunk) => {
                     buffer += chunk.toString();
                     var buffer_arr = buffer.split(/\r?\n/);
-                    console.log(buffer_arr);
                     var number = buffer_arr[0];
                     if (
                         number.charCodeAt(0) === 0x0001 ||
-                        number.charCodeAt(0) === 0x0002
+                        number.charCodeAt(0) === 0x0002 ||
+                        number.charCodeAt(0) === 0x0003 ||
+                        number.charCodeAt(0) === 0x0004
                     ) {
                         number = number.slice(1);
                     }
                     if (
                         number.charCodeAt(number.length - 1) === 0x0001 ||
-                        number.charCodeAt(number.length - 1) === 0x0002
+                        number.charCodeAt(number.length - 1) === 0x0002 ||
+                        number.charCodeAt(number.length - 1) === 0x0003 ||
+                        number.charCodeAt(number.length - 1) === 0x0004
                     ) {
                         number = number.slice(0, -1);
                     }
