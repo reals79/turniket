@@ -205,7 +205,13 @@ module.exports = async function () {
                     buffer += chunk.toString();
                     var buffer_arr = buffer.split(/\r?\n/);
                     console.log(buffer_arr);
-                    var number = buffer_arr[0].replace(/\\u([\d\w]{4})/g, "");
+                    var number = buffer_arr[0];
+                    if (number.charCodeAt(0) === 0x0001) {
+                        number = number.slice(1);
+                    }
+                    if (number.charCodeAt(number.length - 1) === 0x0002) {
+                        number = number.slice(0, -1);
+                    }
                     console.log(number, number.length);
                     if (buffer_arr.length > 0 && number.length == 10) {
                         //number = buffer.slice(1, 11);
